@@ -53,6 +53,36 @@ class DataSummary:
         print(max)
         return max
 
+    def unique(self, feature):  # i will use the set data structure since it does not have duplicates
+        set_values = set()
+        for obj in self._dataFile:
+            if obj[feature] is not None:
+                set_values.add(obj[feature])
+        print(set_values)
+        list_features = list(set_values)
+        return list_features
+
+    def list_values(self, feature):
+        list_values = []
+        for obj in self._dataFile:
+            if obj[feature] is not None:
+                list_values.append(obj[feature])
+        return list_values
+
+    def mode(self):
+        seen = set()  # set is better than lists for this; checking membership is cheaper
+        mode = None
+        mode_count = 0
+        for i in self.arrData:  # the original list
+            if i in seen:
+                continue
+            seen.add(i)
+            i_count = self.arrData.count(i)
+            if i_count > mode_count:
+                mode = i
+                mode_count = i_count
+        return mode  # will return None for an empty array
+
     try:
         def __init__(self, datafile, metafile):
             with open(metafile, 'r') as file_csv:
@@ -92,5 +122,7 @@ if __name__ == "__main__":
         DS_err.mean("Happiness Score")
         DS_err.min("Happiness Score")
         DS_err.max("Happiness Score")
+        DS_err.unique("Region")
+        DS_err.mode("Region")
     except Exception as err:
         print("Exception: ", err)
