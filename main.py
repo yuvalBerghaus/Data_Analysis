@@ -69,18 +69,20 @@ class DataSummary:
                 list_values.append(obj[feature])
         return list_values
 
-    def mode(self):
+    def mode(self,feature):
         seen = set()  # set is better than lists for this; checking membership is cheaper
         mode = None
         mode_count = 0
-        for i in self.arrData:  # the original list
+        values_of_feature = self.list_values(feature)
+        for i in values_of_feature:  # the original list
             if i in seen:
                 continue
             seen.add(i)
-            i_count = self.arrData.count(i)
+            i_count = values_of_feature.count(i)
             if i_count > mode_count:
                 mode = i
                 mode_count = i_count
+        print(mode)
         return mode  # will return None for an empty array
 
     try:
