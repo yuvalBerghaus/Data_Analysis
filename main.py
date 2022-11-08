@@ -10,19 +10,30 @@ import json
 class DataSummary:
     _dataFile = None
 
-    def sum(self):
+    def sum(self, feature):
+        sum = 0
         print(self._dataFile)
-        
+        for obj in self._dataFile:
+            if obj[feature] is not None:
+                sum += float(obj[feature])
+        print(sum)
+
+    def count(self, feature):
+        count = 0
+        print(self._dataFile)
+        for obj in self._dataFile:
+            if obj[feature] is not None:
+                count += 1
+        print(count)
+
     try:
         def __init__(self, datafile, metafile):
             with open(metafile, 'r') as file_csv:
                 csv_dict = csv.DictReader(file_csv)
                 dictobj = next(csv_dict)
-                print(dictobj)
                 features = []
                 for feature in dictobj:
                     features.append(feature)
-                print(features)
                 with open(datafile) as file_json:
                     data = json.load(file_json)
                     for data_feature in data["data"]:
@@ -49,6 +60,7 @@ if __name__ == "__main__":
         metafile = "happiness_meta.csv"
         datafile = "happiness.json"
         DS_err = DataSummary(datafile, metafile)
-        DS_err.sum()
+        DS_err.sum("Happiness Score")
+        DS_err.count("Happiness Score")
     except Exception as err:
         print("Exception: ", err)
