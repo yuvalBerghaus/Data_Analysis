@@ -12,19 +12,46 @@ class DataSummary:
 
     def sum(self, feature):
         sum = 0
-        print(self._dataFile)
         for obj in self._dataFile:
             if obj[feature] is not None:
                 sum += float(obj[feature])
-        print(sum)
+        return sum
 
     def count(self, feature):
         count = 0
-        print(self._dataFile)
         for obj in self._dataFile:
             if obj[feature] is not None:
                 count += 1
-        print(count)
+        return count
+
+    def mean(self, feature):
+        sum = self.sum(feature)
+        count = self.count(feature)
+        mean = sum / count
+
+    def min(self, feature):
+        min = self._dataFile[0][feature]
+        for obj in self._dataFile:
+            if obj[feature] is not None:
+                current_num = float(obj[feature])
+                if min is None:
+                    min = current_num
+                if min > current_num:
+                    min = current_num
+        print(min)
+        return min
+
+    def max(self, feature):
+        max = self._dataFile[0][feature]
+        for obj in self._dataFile:
+            if obj[feature] is not None:
+                current_num = float(obj[feature])
+                if max is None:
+                    max = current_num
+                if max < current_num:
+                    max = current_num
+        print(max)
+        return max
 
     try:
         def __init__(self, datafile, metafile):
@@ -62,5 +89,8 @@ if __name__ == "__main__":
         DS_err = DataSummary(datafile, metafile)
         DS_err.sum("Happiness Score")
         DS_err.count("Happiness Score")
+        DS_err.mean("Happiness Score")
+        DS_err.min("Happiness Score")
+        DS_err.max("Happiness Score")
     except Exception as err:
         print("Exception: ", err)
