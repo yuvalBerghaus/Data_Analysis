@@ -8,13 +8,8 @@ class DataSummary:
     _metaFile = None
     _features = None
 
-    # Press the green button in the gutter to run the script.
-    def remove_none_list(self, list_values):  # return list without any None
-        if None in list_values:
-            list_values.remove(None)
-        return list_values
-
     def sum(self, feature):
+        self.check_if_number(feature, "sum")
         sum = 0
         for obj in self._dataFile:
             if obj[feature] is not None:
@@ -29,33 +24,38 @@ class DataSummary:
         return count
 
     def mean(self, feature):
+        self.check_if_number(feature, "mean")
         sum = self.sum(feature)
         count = self.count(feature)
         mean = sum / count
         return mean
 
+    def check_if_number(self, feature, func):
+        if self._metaFile[feature] == 'string':
+            raise Exception("Sorry, cannot "+func+ " a string for "+feature)
+
     def min(self, feature):
-        min = self._dataFile[0][feature]
+        self.check_if_number(feature, "min")
+        min_value = self._dataFile[0][feature]
         for obj in self._dataFile:
             if obj[feature] is not None:
                 current_num = float(obj[feature])
-                if min is None:
-                    min = current_num
-                if min > current_num:
-                    min = current_num
-        print(min)
+                if min_value is None:
+                    min_value = current_num
+                if min_value > current_num:
+                    min_value = current_num
         return min
 
     def max(self, feature):
-        max = self._dataFile[0][feature]
+        self.check_if_number(feature, "max")
+        max_value = self._dataFile[0][feature]
         for obj in self._dataFile:
             if obj[feature] is not None:
                 current_num = float(obj[feature])
-                if max is None:
-                    max = current_num
-                if max < current_num:
-                    max = current_num
-        print(max)
+                if max_value is None:
+                    max_value = current_num
+                if max_value < current_num:
+                    max_value = current_num
         return max
 
     def unique(self, feature):  # i will use the set data structure since it does not have duplicates
@@ -73,7 +73,7 @@ class DataSummary:
         return list_values
 
     def mode(self, feature):
-        seen = set()  # set is better than lists for this; checking membership is cheaper
+        seen = set()  # set is better than lists for this;
         mode = None
         mode_count = 0
         values_of_feature = self.list_values(feature)
@@ -125,26 +125,5 @@ class DataSummary:
                                 del data_feature[key]
                     self._metaFile = dictobj
                     self._features = features
-                    # with open("new.csv", "w") as f:
-                    #     writer = csv.DictWriter(f, fieldnames=features)
-                    #     writer.writeheader()
-                    #     for rows in data["data"]:
-                    #         writer.writerow(rows)
     except Exception as e:
         print(type(e))
-
-# if __name__ == "__main__":
-#     try:
-#         metafile = "happiness_meta.csv"
-#         datafile = "happiness.json"
-#         DS_err = DataSummary(datafile, metafile)
-#         DS_err.sum("Happiness Score")
-#         DS_err.count("Happiness Score")
-#         DS_err.mean("Happiness Score")
-#         DS_err.min("Happiness Score")
-#         DS_err.max("Happiness Score")
-#         DS_err.unique("Region")
-#         DS_err.mode("Region")
-#         DS_err.empty("Happiness Score")
-#     except Exception as err:
-#         print("Exception: ", err)
