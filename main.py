@@ -9,7 +9,7 @@ if __name__ == "__main__":
         print("unexpected DataSummary constructor")
 
     DS = DataSummary(datafile="happiness.json", metafile="happiness_meta.csv")
-    # print(DS[3])
+    print(DS[3])
     print(DS["Country"])
 
     try:

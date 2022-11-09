@@ -1,14 +1,18 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# Yuval Berghaus - 313247116
 import csv
 import json
 
 
-# Press the green button in the gutter to run the script.
 class DataSummary:
     _dataFile = None
+    _metaFile = None
+    _features = None
+
+    # Press the green button in the gutter to run the script.
+    def remove_none_list(self, list_values):  # return list without any None
+        if None in list_values:
+            list_values.remove(None)
+        return list_values
 
     def sum(self, feature):
         sum = 0
@@ -28,6 +32,7 @@ class DataSummary:
         sum = self.sum(feature)
         count = self.count(feature)
         mean = sum / count
+        return mean
 
     def min(self, feature):
         min = self._dataFile[0][feature]
@@ -61,7 +66,7 @@ class DataSummary:
         list_features = list(set_values)
         return list_features
 
-    def list_values(self, feature):
+    def list_values(self, feature):  # including None
         list_values = []
         for obj in self._dataFile:
             list_values.append(obj[feature])
@@ -88,8 +93,16 @@ class DataSummary:
         values = self.list_values(feature)
         return values.count(None)
 
+    def to_csv(self, filename):
+        with open(filename, "w") as f:
+            writer = csv.DictWriter(f, fieldnames=self._features)
+            writer.writeheader()
+            for rows in self._dataFile:
+                writer.writerow(rows)
+
     def __getitem__(self, key):
-        return self.list_values(key)
+        return self.list_values(key) if type(key) is str else self.list_values(self._features[key])
+
     try:
         def __init__(self, datafile, metafile):
             with open(metafile, 'r') as file_csv:
@@ -100,7 +113,8 @@ class DataSummary:
                     features.append(feature)
                 with open(datafile) as file_json:
                     data = json.load(file_json)
-                    for data_feature in data["data"]:
+                    self._dataFile = data["data"]
+                    for data_feature in self._dataFile:
                         features_of_current_obj = data_feature.keys()
                         for element in features:  # adding the feature to the json obj and assigning it to NoneType
                             if element not in features_of_current_obj:
@@ -109,15 +123,15 @@ class DataSummary:
                                 features_of_current_obj):  # deleting the feature from the json obj that does not exist in the csv file
                             if key not in features:
                                 del data_feature[key]
-                    self._dataFile = data["data"]
-                    with open("new.csv", "w") as f:
-                        writer = csv.DictWriter(f, fieldnames=features)
-                        writer.writeheader()
-                        for rows in data["data"]:
-                            writer.writerow(rows)
+                    self._metaFile = dictobj
+                    self._features = features
+                    # with open("new.csv", "w") as f:
+                    #     writer = csv.DictWriter(f, fieldnames=features)
+                    #     writer.writeheader()
+                    #     for rows in data["data"]:
+                    #         writer.writerow(rows)
     except Exception as e:
         print(type(e))
-
 
 # if __name__ == "__main__":
 #     try:
