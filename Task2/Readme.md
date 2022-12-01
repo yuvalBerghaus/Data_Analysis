@@ -1,5 +1,5 @@
 Task 1
-1. Load the data into a Pandas Dataframe.
+	~~1. Load the data into a Pandas Dataframe.	~~
 2. Which of the categorical features are nominal and which are ordinal?
 3. Add a column that holds the total screen resolution for each device. Name it resolution.
 4. Add a column that holds the DPI (dots per inch) of the screen width and name it DPI_w.
