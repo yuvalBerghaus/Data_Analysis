@@ -1,7 +1,7 @@
 Task 1
-	~~1. Load the data into a Pandas Dataframe.	~~
-2. Which of the categorical features are nominal and which are ordinal?
-3. Add a column that holds the total screen resolution for each device. Name it resolution.
+~~1. Load the data into a Pandas Dataframe.
+~~2. Which of the categorical features are nominal and which are ordinal?
+~~3. Add a column that holds the total screen resolution for each device. Name it resolution.
 4. Add a column that holds the DPI (dots per inch) of the screen width and name it DPI_w.
 DPI of a digital image is calculated by dividing the total number of dots wide by the total
 number of inches wide. Do not leave NaN/Infinite values.
