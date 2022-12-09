@@ -31,7 +31,7 @@ class DataSummary:
         mean = sum / count
         return mean
 
-    def check_if_number(self, feature, func):
+    def check_if_number(self, feature, func): # this will raise an exception whenever we input string to a supposed to be a number
         if self._metaFile[feature] == 'string':
             raise Exception("Sorry, cannot "+func+ " a string for "+feature)
 
@@ -90,18 +90,18 @@ class DataSummary:
                 mode_count = i_count
         return mode  # will return None for an empty array
 
-    def empty(self, feature):
+    def empty(self, feature): # returns the count of all the None values for the chosen feature
         values = self.list_values(feature)
         return values.count(None)
 
-    def to_csv(self, filename, delimit = ','):
-        with open(filename, "w") as f:
+    def to_csv(self, filename, delimit = ','): # to_csv method will write from a dictionary to csv
+        with open(filename, "w" , newline='') as f:
             writer = csv.DictWriter(f, fieldnames=self._features, delimiter=delimit)
             writer.writeheader()
             for rows in self._dataFile:
                 writer.writerow(rows)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key): # access through []
         return self.list_values(key) if type(key) is str else self.list_values(self._features[key])
 
     try:
