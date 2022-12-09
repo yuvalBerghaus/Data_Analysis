@@ -94,9 +94,9 @@ class DataSummary:
         values = self.list_values(feature)
         return values.count(None)
 
-    def to_csv(self, filename):
+    def to_csv(self, filename, delimit = ','):
         with open(filename, "w") as f:
-            writer = csv.DictWriter(f, fieldnames=self._features)
+            writer = csv.DictWriter(f, fieldnames=self._features, delimiter=delimit)
             writer.writeheader()
             for rows in self._dataFile:
                 writer.writerow(rows)
