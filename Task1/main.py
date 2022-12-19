@@ -29,7 +29,7 @@ if __name__ == "__main__":
     print(DS.mean("Happiness Score"))
     print(DS.mode("Class"))
     print(DS.unique("Region"))
-
+    print(DS.count("Happiness"))
     try:
         DS.min("Country")
     except Exception as err:
